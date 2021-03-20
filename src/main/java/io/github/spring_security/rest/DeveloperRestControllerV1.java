@@ -25,6 +25,7 @@ public class DeveloperRestControllerV1 {
     ).collect(Collectors.toList());
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('developers:read')")
     public Developer getById(@PathVariable long id) {
         return DEVELOPERS.stream().filter(developer -> developer.getId().equals(id))
                 .findFirst()
@@ -32,19 +33,20 @@ public class DeveloperRestControllerV1 {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('developers:read')")
     public List<Developer> getAll() {
         return DEVELOPERS;
     }
 
     @PostMapping
-    //@PreAuthorize("hasAuthority('developers:write')")
+    @PreAuthorize("hasAuthority('developers:write')")
     public Developer create(@RequestBody Developer developer) {
         this.DEVELOPERS.add(developer);
         return developer;
     }
 
     @DeleteMapping("{id}")
-    //@PreAuthorize("hasAuthority('developers:write')")
+    @PreAuthorize("hasAuthority('developers:write')")
     public void deleteById(@PathVariable Long id) {
         this.DEVELOPERS.removeIf(developer -> developer.getId().equals(id));
     }
