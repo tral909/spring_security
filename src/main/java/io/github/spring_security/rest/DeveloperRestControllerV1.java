@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("api/v1/developers")
+@RequestMapping("/api/v1/developers")
 public class DeveloperRestControllerV1 {
 
     private final List<Developer> DEVELOPERS = Stream.of(
@@ -24,7 +24,7 @@ public class DeveloperRestControllerV1 {
             new Developer(3L, "Petr", "Petrov")
     ).collect(Collectors.toList());
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('developers:read')")
     public Developer getById(@PathVariable long id) {
         return DEVELOPERS.stream().filter(developer -> developer.getId().equals(id))
@@ -45,7 +45,7 @@ public class DeveloperRestControllerV1 {
         return developer;
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('developers:write')")
     public void deleteById(@PathVariable Long id) {
         this.DEVELOPERS.removeIf(developer -> developer.getId().equals(id));
